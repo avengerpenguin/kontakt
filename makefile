@@ -49,5 +49,5 @@ $(VENV)/bin/py.test: $(PIP)
 
 test: $(PYSRC) $(PYTHON) $(VENV)/bin/py.test pep8.errors
 	$(PIP) install -U ../hyperflask
-	$(PIP) install -U . sqlalchemy httpretty
+	$(PIP) install -U . sqlalchemy httpretty hyperspace
 	$(PYTEST) tests/*.py

@@ -2,12 +2,13 @@ import pytest
 import hyperflask
 import httpretty
 import kontakt
+import hyperspace
 
 
-@pytest.fixture
+@pytest.fixture(autouse=True)
 def mock_requests_to_use_flask_test_client():
 
-    client = kontact.app.test_client()
+    client = kontakt.app.test_client()
 
     def get_callback(request, uri, headers):
         r = client.get(uri, headers=headers)
@@ -17,4 +18,5 @@ def mock_requests_to_use_flask_test_client():
 
 
 def test_index():
-    pass
+    page = hyperspace.jump('http://example.com/')
+    assert page.response.status_code == 200
