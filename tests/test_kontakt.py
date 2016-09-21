@@ -14,7 +14,7 @@ def mock_requests_to_use_flask_test_client():
         r = client.get(uri, headers=headers)
         return (r.status_code, r,headers, r.data)
 
-    httpretty.register_uri(httpretty.GET, '.*', body=request_callback)
+    httpretty.register_uri(httpretty.GET, '.*', body=get_callback)
 
 
 def test_index():
