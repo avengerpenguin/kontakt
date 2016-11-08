@@ -48,6 +48,6 @@ $(VENV)/bin/py.test: $(PIP)
 	$(PIP) install pytest pytest-cov pytest-xdist
 
 test: $(PYSRC) $(PYTHON) $(VENV)/bin/py.test pep8.errors
-	$(PIP) install -U ../hyperflask
+	#$(PIP) install -U ../hyperflask
 	$(PIP) install -U . sqlalchemy httpretty hyperspace
 	$(PYTEST) tests/*.py
