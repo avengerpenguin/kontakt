@@ -37,17 +37,16 @@ $(PEP8): $(PYTHON)
 	$(PIP) install pep8
 
 pep8.errors: $(PEP8) $(PYSRC)
-	$(PEP8) --exclude="venv" . | tee pep8.errors || true
+	$(PEP8) --exclude="venv,.eggs" . | tee pep8.errors || true
 
 
 ################
 # Unit Testing #
 ################
 
-$(VENV)/bin/py.test: $(PIP)
-	$(PIP) install pytest pytest-cov pytest-xdist
-
-test: $(PYSRC) $(PYTHON) $(VENV)/bin/py.test pep8.errors
+test: $(PYSRC) $(PYTHON) pep8.errors setup.py
 	#$(PIP) install -U ../hyperflask
-	$(PIP) install -U . sqlalchemy httpretty hyperspace
-	$(PYTEST) tests/*.py
+	#$(PIP) install -U . sqlalchemy httpretty hyperspace
+	#$(PYTEST) tests/*.py
+	$(PIP) install -U ../hyperspace
+	$(PYTHON) setup.py test

@@ -1,22 +1,34 @@
 import os
 
-import flask_rdf as flask_rdf
 from flask import Flask
-from rdflib import Graph
-from .hyperflask import Hyperflask
-from flask_sqlalchemy import SQLAlchemy
+from flask import request
+
+from .hyperflask import Hyperflask, Response
 
 
 app = Flask('test')
 hf = Hyperflask(app)
-db = SQLAlchemy(app)
 
 
-@hf.get('/people')
-def people(request_data=None):
-    pass
+@hf.get('/people/search')
+def find_person():
+    q = request.args.get('q')
+    r = hf.server_state.query('''
+    PREFIX schema: <http://schema.org/>
+    CONSTRUCT {
+        ?x a schema:Person .
+        ?x ?p ?y .
+    }
+    WHERE {
+        ?x schema:name ?name
+    }
+    ''', initBindings={'name': q})
+    print(r)
+    return Response()
 
 
 @hf.get('/')
-def index(request_data=None):
-    return hf.Response(links=people)
+def index():
+    return Response(forms=[
+        ('person-search', find_person, {'q': ''}),
+    ])
