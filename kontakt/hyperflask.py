@@ -26,8 +26,8 @@ class Hyperflask(object):
         return self.resource(path, **options)
 
 
-def Response(forms=None):
-    g = Graph()
+def Response(forms=None, data=None):
+    g = data or Graph()
     if forms:
         for rel, handler, params in forms:
             href = url_for(handler.__name__)

@@ -6,6 +6,7 @@ from rdflib import Graph
 
 import kontakt
 import hyperspace
+from laconia import ThingFactory
 
 
 @pytest.fixture(autouse=True, scope='module')
@@ -16,10 +17,10 @@ def mock_requests_to_use_flask_test_client(request):
     g = Graph()
     g.parse(format='turtle', data='''
     @prefix schema: <http://schema.org/> .
-    </people/1> a schema:Person ;
+    <http://example.com/people/1> a schema:Person ;
                 schema:name "Ross" .
     ''')
-    kontakt.app.server_state = g
+    kontakt.hf.server_state = g
 
     def get_callback(http_request, uri, headers):
 
@@ -51,7 +52,19 @@ def test_search():
     http = requests.Session()
     http.headers = {'Accept': 'text/turtle'}
     page = hyperspace.jump('http://example.com/', http)
-    print(page.queries)
     assert len(page.queries) == 1
     results = page.queries['#person-search'][0].build({'q': 'Ross'}).submit()
     assert results.response.status_code == 200
+
+
+def test_search_results():
+    http = requests.Session()
+    http.headers = {'Accept': 'text/turtle'}
+    page = hyperspace.jump('http://example.com/', http)
+
+    results = page.queries['#person-search'][0].build({'q': 'Ross'}).submit()
+    results.data.bind('schema', 'http://schema.org/', override=True)
+
+    Thing = ThingFactory(results.data)
+    ross = Thing('http://example.com/people/1')
+    assert 'Ross' in ross.schema_name
