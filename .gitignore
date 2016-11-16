@@ -1,0 +1,9 @@
+__pycache__
+.cache
+.eggs
+.idea
+/build
+/dist
+*.egg-info
+/pep8.errors
+/venv
