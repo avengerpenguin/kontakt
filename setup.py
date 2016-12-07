@@ -10,7 +10,7 @@ setup(
     packages=['kontakt'],
     description='Website and API for contact data',
     url='http://github.com/avengerpenguin/kontakt',
-    install_requires=['flask', 'flask-sqlalchemy', 'flask_rdf', 'rdflib', 'hyperspace'],
+    install_requires=['flask', 'flask-sqlalchemy', 'flask_rdf', 'rdflib'],
     setup_requires=['pytest-runner',],
-    tests_require=['pytest', 'httpretty'],
+    tests_require=['pytest', 'httpretty', 'hyperspace'],
 )

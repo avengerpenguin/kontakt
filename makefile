@@ -48,5 +48,5 @@ test: $(PYSRC) $(PYTHON) pep8.errors setup.py
 	#$(PIP) install -U ../hyperflask
 	#$(PIP) install -U . sqlalchemy httpretty hyperspace
 	#$(PYTEST) tests/*.py
-	$(PIP) install -U ../hyperspace
+	#$(PIP) install -U ../hyperspace
 	$(PYTHON) setup.py test
