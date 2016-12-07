@@ -60,8 +60,5 @@ def test_search(entrypoint):
 
 def test_search_results(entrypoint):
     results = entrypoint.queries['#person-search'][0].build({'q': 'Ross'}).submit()
-    results.data.bind('schema', 'http://schema.org/', override=True)
-
     ross = results.entity('http://example.com/people/1')
-
     assert 'Ross' in ross.schema_name
